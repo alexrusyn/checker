@@ -80,7 +80,8 @@ const BoardComponent: React.FC<BoardProps> = ({ board, updateBoard }) => {
             key={figure.id}
             checker={figure}
             isActive={selectedFigureId === figure.id}
-            onSelect={onSelectFigure}
+            onDragStart={onSelectFigure}
+            onDragEnd={resetState}
           />
         ))}
       </div>

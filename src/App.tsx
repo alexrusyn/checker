@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+
 import BoardComponent from "./components/Board";
 
 import Board from "./domain/Board";
@@ -15,7 +18,9 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <BoardComponent board={board} updateBoard={updateBoard} />
+      <DndProvider backend={HTML5Backend}>
+        <BoardComponent board={board} updateBoard={updateBoard} />
+      </DndProvider>
     </div>
   );
 };

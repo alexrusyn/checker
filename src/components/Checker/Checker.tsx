@@ -1,6 +1,8 @@
 import React from "react";
 import cn from "classnames";
 
+import { useDrag } from "react-dnd";
+
 import Checker from "../../domain/Checker";
 
 import "./Checker.css";
@@ -8,22 +10,33 @@ import "./Checker.css";
 interface CheckerComponentProps {
   checker: Checker;
   isActive: boolean;
-  onSelect: (figureId: string) => void;
+  onDragStart: (figureId: string) => void;
+  onDragEnd: () => void;
 }
 
 export const CheckerComponent: React.FC<CheckerComponentProps> = ({
   checker,
   isActive,
-  onSelect,
+  onDragStart,
+  onDragEnd,
 }) => {
+  const [, dragRef] = useDrag({
+    type: "checker",
+    canDrag: () => {
+      onDragStart(checker.id);
+      return true;
+    },
+    end: () => onDragEnd(),
+  });
+
   return !checker.isRemoved ? (
     <div
+      ref={dragRef}
       className={cn(
         "checker",
         `checker-${checker.color.toLowerCase()}`,
         isActive && `checker-active`
       )}
-      onClick={() => onSelect(checker.id)}
       style={{
         top: 64 * checker.coords.y,
         left: 64 * checker.coords.x,
