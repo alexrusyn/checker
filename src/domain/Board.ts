@@ -1,9 +1,7 @@
 import MoveValidator from "./MoveValidator";
 import Cell from "./Cell";
 import Checker from "./Checker";
-import { PlayersObject, PlayerType } from "./Player/Abstract";
-import PlayerAI from "./Player/PlayerAI";
-import PlayerHuman from "./Player/PlayerHuman";
+import Player, { PlayersObject, PlayerType } from "./Player";
 
 import { Colors, Coords, Directions, GridId } from "./interfaces";
 
@@ -29,8 +27,8 @@ class Board {
     this._checkers = this.initBoardFigure();
 
     this.players = {
-      [PlayerType.AI]: new PlayerAI(),
-      [PlayerType.HUMAN]: new PlayerHuman(),
+      [PlayerType.AI]: new Player(PlayerType.AI, Colors.WHITE),
+      [PlayerType.HUMAN]: new Player(PlayerType.HUMAN, Colors.BLACK),
     };
 
     this.updateCells();
@@ -91,10 +89,10 @@ class Board {
   }
 
   public canPlayerSelectChecker(activePlayer: PlayerType, checkerId: string) {
-    const player = this.players[activePlayer];
+    const player = this.players[PlayerType.HUMAN];
     const checker = this.getChecker(checkerId);
 
-    return player.color === checker.color;
+    return activePlayer === PlayerType.HUMAN && player.color === checker.color;
   }
 
   public checkAvailableMove(selectedFigureId: string) {

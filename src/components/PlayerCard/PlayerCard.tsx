@@ -1,12 +1,12 @@
 import React from "react";
 import cn from "classnames";
 
-import AbstractPlayer from "../../domain/Player/Abstract";
+import Player from "../../domain/Player";
 
 import "./PlayerCard.css";
 
 interface PlayerCardProps {
-  player: AbstractPlayer;
+  player: Player;
   isActive: boolean;
 }
 

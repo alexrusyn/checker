@@ -1,4 +1,4 @@
-import { Colors } from "../interfaces";
+import { Colors } from "./interfaces";
 
 export enum PlayerType {
   HUMAN = "human",

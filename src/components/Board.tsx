@@ -7,7 +7,7 @@ import CheckerComponent from "./Checker";
 import Board from "../domain/Board";
 
 import { Coords, GridId } from "../domain/interfaces";
-import { PlayerType } from "../domain/Player/Abstract";
+import { PlayerType } from "../domain/Player";
 import PlayerCard from "./PlayerCard/PlayerCard";
 
 interface BoardProps {
@@ -43,14 +43,10 @@ const BoardComponent: React.FC<BoardProps> = ({ board, updateBoard }) => {
     updateBoard();
     updateAvailableIds();
 
-    setActivePlayer((prev) =>
-      prev === PlayerType.AI ? PlayerType.HUMAN : PlayerType.AI
-    );
-
     resetState();
   };
 
-  const onSelectFigure = (id: string) => {
+  const onSelectChecker = (id: string) => {
     if (board.canPlayerSelectChecker(activePlayer, id))
       setSelectedCheckerId(id);
   };
@@ -80,7 +76,7 @@ const BoardComponent: React.FC<BoardProps> = ({ board, updateBoard }) => {
             key={figure.id}
             checker={figure}
             isActive={selectedFigureId === figure.id}
-            onDragStart={onSelectFigure}
+            onDragStart={onSelectChecker}
             onDragEnd={resetState}
           />
         ))}
