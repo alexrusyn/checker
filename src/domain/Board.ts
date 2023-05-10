@@ -87,6 +87,8 @@ class Board {
       this.moveValidator.getPossibleRandomMove(this.cellMap, aiCheckers);
     const checker = this.getChecker(nextCheckerId);
 
+    if (!checker) return;
+
     const cellIdOfJumped = this.moveValidator.getCellIdOfJumped(
       checker.cellId,
       nextRandomCellId
@@ -102,7 +104,7 @@ class Board {
 
   private removeChecker(id: GridId) {
     const checker = this.getCheckerByCell(id);
-    checker.remove();
+    checker && checker.remove();
   }
 
   public update(): Board {
