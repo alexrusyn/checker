@@ -10,6 +10,8 @@ import { Coords, GridId } from "../domain/interfaces";
 import { PlayerType } from "../domain/Player";
 import PlayerCard from "./PlayerCard/PlayerCard";
 
+import { getRandomInRange, getCoordFromId } from "../utils";
+
 interface BoardProps {
   board: Board;
   updateBoard: () => void;
@@ -41,8 +43,7 @@ const BoardComponent: React.FC<BoardProps> = ({ board, updateBoard }) => {
     board.moveChecker(selectedFigureId, cellId, coords, activePlayer);
 
     updateBoard();
-    updateAvailableIds();
-
+    setActivePlayer(PlayerType.AI);
     resetState();
   };
 
@@ -55,11 +56,24 @@ const BoardComponent: React.FC<BoardProps> = ({ board, updateBoard }) => {
     updateAvailableIds();
   }, [selectedFigureId]);
 
+  useDidUpdate(() => {
+    if (activePlayer === PlayerType.AI) {
+      board.moveAIChecker(activePlayer);
+
+      setActivePlayer(PlayerType.HUMAN);
+      updateBoard();
+    }
+  }, [activePlayer]);
+
   return (
     <>
       <aside className="aside">
         {Object.values(board.players).map((player) => (
-          <PlayerCard player={player} isActive={player.type === activePlayer} />
+          <PlayerCard
+            key={player.type}
+            player={player}
+            isActive={player.type === activePlayer}
+          />
         ))}
       </aside>
       <div className="board">

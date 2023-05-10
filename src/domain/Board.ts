@@ -5,7 +5,7 @@ import Player, { PlayersObject, PlayerType } from "./Player";
 
 import { Colors, Coords, Directions, GridId } from "./interfaces";
 
-import { getIdFromCoords } from "../utils";
+import { getIdFromCoords, getCoordFromId } from "../utils";
 
 import {
   CELL_COUNT,
@@ -36,6 +36,10 @@ class Board {
 
   get checkers() {
     return this._checkers.filter(({ isRemoved }) => !isRemoved);
+  }
+
+  get cellMap() {
+    return this.getCellMap();
   }
 
   public getCell(cellId: string): Cell {
@@ -72,6 +76,30 @@ class Board {
     checker.moveTo(coords);
   }
 
+  public moveAIChecker(activePlayer: PlayerType) {
+    const player = this.players[activePlayer];
+
+    const aiCheckers = this.checkers.filter(
+      ({ color, isRemoved }) => !isRemoved && color === player.color
+    );
+
+    const [nextCheckerId, nextRandomCellId] =
+      this.moveValidator.getPossibleRandomMove(this.cellMap, aiCheckers);
+    const checker = this.getChecker(nextCheckerId);
+
+    const cellIdOfJumped = this.moveValidator.getCellIdOfJumped(
+      checker.cellId,
+      nextRandomCellId
+    );
+
+    if (cellIdOfJumped !== null) {
+      player.increaseScore();
+      this.removeChecker(cellIdOfJumped);
+    }
+
+    checker.moveTo(getCoordFromId(nextRandomCellId));
+  }
+
   private removeChecker(id: GridId) {
     const checker = this.getCheckerByCell(id);
     checker.remove();
@@ -97,10 +125,9 @@ class Board {
 
   public checkAvailableMove(selectedFigureId: string) {
     const checker = this.getChecker(selectedFigureId);
-    const cellMap = this.getCellMap();
 
     const availableIds = this.moveValidator.checkAvailableMove(
-      cellMap,
+      this.cellMap,
       checker
     );
 

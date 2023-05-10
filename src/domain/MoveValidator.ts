@@ -3,7 +3,11 @@ import Checker from "./Checker";
 
 import { Grid, GridId, Directions, Axis } from "./interfaces";
 
-import { getConcatStrings, convertGridIdToGridIndexes } from "../utils";
+import {
+  getConcatStrings,
+  convertGridIdToGridIndexes,
+  getRandomInRange,
+} from "../utils";
 
 class MoveValidator {
   public getCellIdOfJumped(prevCellId: GridId, nextCellId: GridId) {
@@ -28,6 +32,38 @@ class MoveValidator {
       if (currentColor === null) return id;
       return currentColor !== color ? availableToJump[index] : null;
     });
+  }
+
+  public getPossibleRandomMove(
+    cellMap: CellMap,
+    checkers: Checker[]
+  ): [string, GridId] {
+    const possibleMoveMap: { [key: string]: GridId[] } = checkers.reduce(
+      (acc, checker) => {
+        const availableIds = this.checkAvailableMove(cellMap, checker).filter(
+          (id) => id
+        );
+
+        return availableIds.length
+          ? {
+              ...acc,
+              [checker.id]: availableIds,
+            }
+          : acc;
+      },
+      {}
+    );
+
+    const checkerKeys = Object.keys(possibleMoveMap);
+    const randomIndex = getRandomInRange(0, checkerKeys.length);
+
+    const nextCheckerId = checkerKeys[randomIndex];
+
+    const availableIds = possibleMoveMap[nextCheckerId] || [];
+    const nextRandomCellId =
+      availableIds[getRandomInRange(0, availableIds.length)];
+
+    return [nextCheckerId, nextRandomCellId];
   }
 
   private getAvailableCells(
