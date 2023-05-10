@@ -1,0 +1,26 @@
+.cell {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.cell-black {
+  background-color: #7bac7e;
+}
+
+.cell-white {
+  background-color: #eeeae3;
+}
+
+.cell-selected {
+  background-color: #5693f1;
+}
+
+.cell-available {
+  background-color: #9bd95e;
+}

@@ -1,0 +1,37 @@
+.player-card {
+  display: flex;
+  padding: 10px 20px;
+  align-items: center;
+}
+
+.player-card-color {
+  display: block;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+}
+
+.player-card-black {
+  background-color: #bf3842;
+}
+
+.player-card-white {
+  background-color: #edddb5;
+}
+
+.player-card-active {
+  outline: 3px solid #7bac7e;
+  outline-offset: 3px;
+}
+
+.player-card-body {
+  padding-left: 15px;
+}
+
+.player-card-name {
+  margin: 0 0 5px;
+}
+
+.player-card-score {
+  margin: 0;
+}

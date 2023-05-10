@@ -1,0 +1,57 @@
+.checker {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  box-shadow: -1px -1px 2px 0 rgba(255, 255, 255, 0.25),
+    1px 1px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.checker::before,
+.checker::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checker::before {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0;
+  background-color: rgba(255, 255, 255, 0.35);
+  z-index: 1;
+}
+
+.checker::after {
+  width: 60%;
+  height: 60%;
+  border: 3px solid transparent;
+  border-radius: 50%;
+}
+
+.checker-active::before {
+  opacity: 1;
+}
+
+.checker-black {
+  background-color: #bf3842;
+  border-color: #a42e34;
+}
+
+.checker-black::after {
+  border-color: #a42e34;
+}
+
+.checker-white {
+  background-color: #edddb5;
+  border-color: #e4ca8f;
+}
+
+.checker-white::after {
+  border-color: #e4ca8f;
+}
